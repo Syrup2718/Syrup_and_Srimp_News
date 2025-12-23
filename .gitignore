@@ -1,2 +1,8 @@
 /venv
 /test*
+db/news.sqlite
+config/env/.env
+vendor/
+apps/jobs/.venv/
+venv/
+*.jsonl

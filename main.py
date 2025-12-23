@@ -24,8 +24,8 @@ def main():
     generator.fit()
     print("[3] 新聞生成完成σ`∀´)σ")
     
-    rename()
-    export_json()
+    rename(jsonl_path)
+    export_json(jsonl_path)
     print("[4] 檔名修改完畢~")
 
 

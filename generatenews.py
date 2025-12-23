@@ -32,7 +32,7 @@ class GenerateNews:
         
         ollama.pull(model)
     
-    
+    # 如果分群內的文章>1時才會被列入生成的隊伍
     @staticmethod
     def _min_cluster(clusters):
         min_cluster = []
@@ -42,7 +42,7 @@ class GenerateNews:
                 
         return min_cluster
     
-    
+    # 導入文章
     def load_articles(self, cluster):
         self.articles.clear()
         with open(self.path, "r", encoding="utf-8") as f:
@@ -56,10 +56,10 @@ class GenerateNews:
         
         return self
     
-    
+    # 將新聞移至提示詞內
     def build_prompt(self):
-        max_char = 4096
-        total_len=0
+        max_char = 4096     # 實驗後發現4000字左右比較不會出現問題
+        total_len = 0
         blocks = []
         for i, art in enumerate(self.articles, start=1):
             title = art.get("title", "").strip()
@@ -76,6 +76,7 @@ class GenerateNews:
         
         joined = "\n\n".join(blocks)
         
+        # 提示詞
         prompt = f"""
             你是專業的新聞編輯，負責把多家媒體對同一事件的報導整合成一篇中立、客觀、清晰的新聞。
 
@@ -98,49 +99,42 @@ class GenerateNews:
             {joined}
             """
             
-        # print(len(prompt))
-        # print(prompt)
-        # print("===========================================================")
-        
         return prompt.strip()
     
-    
+    # 檢查是否有奇怪的md語法或是非中文
     @staticmethod
     def _is_bad(text):
         for line in text.splitlines():
             stripped = line.lstrip()
 
-            # 標題：#、##、### ...
+            # 不要md語法
             if stripped.startswith("#"):
                 return True
 
-            # 項目符號：- * +
             if stripped.startswith(("-", "*", "+")):
                 return True
 
-            # 編號清單：1. 2. 3.
             if re.match(r"\d+\.\s", stripped):
                 return True
         
         if "```" in text or "**" in text or "__" in text or "`" in text:
             return True
         
-        # 1. 不能有 LaTeX
         if "\\boxed{" in text or "\\begin{" in text or "$" in text:
             return True
 
-        # 2. 不能有大量非中英符號（例如阿拉伯文）
+        # 不能有大量非中英符號（例如阿拉伯文）
         if re.search(r"[\u0600-\u06FF]", text):  # Arabic range
             return True
 
-        # 3. 禁止特定政治 / AI 聲明句
+        # 禁止特定用詞
         for s in BAD_STRS:
             if s in text:
                 return True
 
         return False
     
-    
+    # 生成文章
     def generate(self):
         for attempt in range(3):
             prompt = self.build_prompt()
@@ -180,7 +174,7 @@ class GenerateNews:
 
         return self
     
-    
+    # 導出成新聞
     def export_news(self, filename=None):
         dir = f".\\articles\{time.strftime('%Y%m%d')}"
         os.makedirs(dir, exist_ok=True)
@@ -199,7 +193,7 @@ class GenerateNews:
 
         return self
 
-    
+    # 執行整個步驟
     def fit(self):
         for idx, cluster in enumerate(self.clusters):
             self.load_articles(cluster)

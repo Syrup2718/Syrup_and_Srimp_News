@@ -28,16 +28,17 @@ class ClusterNews:
         
         return self
     
-    
+    # 前期處理，將文章儲存成正確格式
     def prework(self):
         if len(self.titles) != len(self.contents):
-            raise ValueError("titles 與 contents 長度不一致，請檢查資料。")
+            raise ValueError("titles 與 contents 長度不一，資料有誤。")
 
         self.docs = [f"clustering: {t} {c}" for t, c in zip(self.titles, self.contents)]
         self.embeddings = self.model.encode(self.docs, convert_to_numpy=True, batch_size=32)
 
         return self
     
+    # 計算餘弦相似性
     @staticmethod
     def cosine_sim(embeddings):
         emb_norm = embeddings / (np.linalg.norm(embeddings, axis=1, keepdims=True) + 1e-8)  # 向量長度 = 矩陣 / np.linalg.norm()
@@ -45,7 +46,7 @@ class ClusterNews:
         
         return sim_matrix
     
-    
+    # 尋找距離較近者
     @staticmethod
     def cluster(matrix, threshold=0.9):
         n = matrix.shape[0]
@@ -78,14 +79,14 @@ class ClusterNews:
 
         return clusters
 
-
+    # 執行整個步驟
     def fit(self, threshold=0.915):
         self.prework()
         self.clusters = self.cluster(self.cosine_sim(embeddings=self.embeddings), threshold=threshold)
         
         return self
     
-    
+    # 倒出成數字的分群
     def export_num_clusters(self):
         filename = "clusters_num.txt"
         
@@ -101,7 +102,7 @@ class ClusterNews:
         
         return self
 
-
+    # 倒出成開頭的分群
     def export_title_clusters(self):
         filename = f"clusters_str.txt"
 
@@ -119,7 +120,7 @@ class ClusterNews:
 
         return self
 
-
+    # 顯示用
     def show(self):
         print("總文章數：", len(self.contents))
         print("群數：", len(self.clusters)) 

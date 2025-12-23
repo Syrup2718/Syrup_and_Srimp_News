@@ -1,2 +1,11 @@
 # Syrup and Srimp News
-在當代資訊環境中，國際新聞的接收往往受到媒體立場與片面敘事的影響，而公眾對國際事務的理解也常因資訊過載與來源限制而受限。為解決這一問題，我們計劃打造一個結合人工智能技術的新聞整合平台。該平台旨在廣泛蒐集全球來源的新聞內容，透過智能分析與事實核查，減少偏見與立場導向的敘事，並以客觀、數據驅動的方式整合與呈現資訊。我們期望提供一個可靠、中立的新聞視角，協助讀者更全面理解國際事件，促進資訊識讀與批判思考能力的提升。
+In today’s information environment, access to international news is often shaped by media bias and one-sided narratives. Public understanding of global affairs is also frequently constrained by information overload and limited source diversity. To address this challenge, we plan to build an AI-powered news aggregation platform. The platform will systematically collect news content from a wide range of sources worldwide and use intelligent analysis and fact-checking to reduce bias and perspective-driven storytelling. It will integrate and present information in an objective, data-driven manner. Our goal is to provide a trustworthy and neutral news perspective that helps readers gain a more comprehensive understanding of international events, while strengthening media literacy and critical thinking.
+
+## Logic of Operation
+We first crawl trending news from major news websites. Next, we use **nomic-embed-text** to embed and cluster all articles. Then, we feed the clustered results into **qwen3-vl:8b** to generate a new, objective and neutral synthesized article. Finally, we upload the generated content to our news platform.
+
+```mermaid 
+flowchart LR
+  A[Fetch] --> B[Clustering] --> C[Generate] --> D[Upload]
+```
+

@@ -6,3 +6,6 @@ vendor/
 apps/jobs/.venv/
 venv/
 *.jsonl
+articles/
+__pycache__/
+*.ipynb

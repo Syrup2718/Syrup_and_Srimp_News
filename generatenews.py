@@ -159,12 +159,14 @@ class GenerateNews:
 
         else:
             # 三次都失敗，就直接放棄這個 cluster
-            raise ValueError(f"這組prompt有問題\n{prompt}")
+            print(f"這組prompt有問題\n{prompt}")
+            return False
         
         
         lines = raw_output.splitlines()
         if not lines:
-            raise ValueError("空空")
+            print("空空")
+            return False
         
         first_line = lines[0].strip()
         

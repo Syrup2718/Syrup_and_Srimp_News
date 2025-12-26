@@ -83,24 +83,34 @@ class CatchNews:
     def ltn(self):
         links = []
         
-        base = "https://news.ltn.com.tw"
-        url = base + "/list/breakingnews/popular"
+        for i in range(1,26):
+            url = "https://news.ltn.com.tw/ajax/breakingnews/popular/"
 
-        soup = self._get_soup(url)
+            web = requests.get(url + str(i), timeout=10)
+            web.raise_for_status()
 
-        news_list = soup.find_all("ul", class_="list")
+            payload = json.loads(web.content.decode("utf-8-sig"))
+            datas = payload.get("data")
+            
+            if isinstance(datas, dict):
+                iterable = datas.values()
+            elif isinstance(datas, list):
+                iterable = datas
 
-        for news in news_list:
-            for li in news.find_all("li"):
-                a = li.find("a", href=True)
-                if not a:              # 防呆：沒有 <a> 就跳過
+            for item in iterable:
+                if not isinstance(item, dict):
+                    print(f"[page {i}] skip non-dict item:", type(item), repr(item)[:80])
                     continue
-                href = a.get("href")
-                if not href:
-                    continue
-                links.append(urljoin(base, href))
 
+                u = item.get("url")
+                if not u:
+                    print(f"[page {i}] skip missing url keys:", item.keys())
+                    continue
+                
+                links.append(u)
+            
         return links
+        
     
     # SETN 爬蟲
     def setn(self):
@@ -755,12 +765,12 @@ def download_news():
     return filename
 
 
-# download_news()
+download_news()
 
 
 # owo = CatchNews()
-# l = owo.yahoo()
+# l = owo.ltn()
 
 # awa = CatchArticle()
 # for ll in l:
-#     print(awa.catch_yahoo(ll))
+#     print(awa.catch_ltn(ll))

@@ -1,5 +1,6 @@
 # Syrup and Srimp News
 **A Neutral, Fair, and Objective News Source.**
+
 💫 [Website Portal](https://syrupshrimp.qzz.io/)
 
 [TOC]
@@ -15,3 +16,9 @@ flowchart LR
   A[Fetch] --> B[Clustering] --> C[Generate] --> D[Upload]
 ```
 
+## The AI Model We Used
+
+1. [Nomic-Embed-Text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)
+  cluster news
+2. [Qwen3-vl:8b](https://ollama.com/library/qwen3-vl)
+  generate news

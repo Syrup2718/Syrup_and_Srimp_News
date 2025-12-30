@@ -23,7 +23,7 @@ In today’s information environment, access to international news is often shap
 ## Logic of Operation
 We first crawl trending news from major news websites. Next, we use **nomic-embed-text** to embed and cluster all articles. Then, we feed the clustered results into **qwen3-vl:8b** to generate a new, objective and neutral synthesized article. Finally, we upload the generated content to our news platform.
 
-![image](images\SASN.png)
+![image](https://github.com/Syrup2718/Syrup_and_Shrimp_News/blob/main/images/SASN.png)
 
 
 

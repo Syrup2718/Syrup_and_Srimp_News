@@ -1,7 +1,7 @@
 from catchnews import download_news
 from clusternews import ClusterNews
 from generatenews import GenerateNews
-from readjust import rename, export_json
+from readjust import rename, export_json, detection
 
 
 def main():
@@ -26,7 +26,8 @@ def main():
     print("[3] 新聞生成完成σ`∀´)σ")
     
     rename(jsonl_path)
-    export_json(jsonl_path)
+    bad_file = detection(jsonl_path)
+    export_json(jsonl_path, bad_file)
     print("[4] 檔名修改完畢~")
 
 

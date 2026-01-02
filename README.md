@@ -34,6 +34,8 @@ We first crawl trending news from major news websites. Next, we use **nomic-embe
   \- cluster news
 2. [Qwen3-vl:8b](https://ollama.com/library/qwen3-vl)
   \- generate news
+3. [Qwen3-vl:4b](https://ollama.com/library/qwen3-vl)
+  \- detection and generate news
 
 ### News Source
 1. [LTN](https://www.ltn.com.tw/)

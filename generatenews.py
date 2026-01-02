@@ -22,6 +22,7 @@ BAD_STRS = [
     "根據原始資訊",
     "標題：",
     "字數",
+    "中文助手",
 ]
 
 
@@ -106,6 +107,11 @@ class GenerateNews:
             """
             
         return prompt.strip()
+    
+    @staticmethod
+    def build_merge_prompt(articles):
+        pass
+    
     
     # 檢查是否有奇怪的md語法或是非中文
     @staticmethod
@@ -217,6 +223,4 @@ class GenerateNews:
 
 # owo = GenerateNews(model="qwen3-vl:latest", path="SASnews_record-20251213_14-17-49.jsonl", clusters=[[0, 274, 203, 161, 131, 78], [1, 65, 209, 142], [2], [3], [4, 321, 108], [5, 181], [6], [7, 159], [8], [9], [10, 241, 111], [11], [12], [13, 311], [14], [15, 260, 224, 158]])
 # owo.fit()
-
-
 

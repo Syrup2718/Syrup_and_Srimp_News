@@ -25,6 +25,7 @@ def main():
     generator.fit()
     print("[3] 新聞生成完成σ`∀´)σ")
     
+    # ４. 修改名稱、檢測、導出檔案
     rename(jsonl_path)
     bad_file = detection(jsonl_path)
     export_json(jsonl_path, bad_file)
